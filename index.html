@@ -1276,24 +1276,95 @@ img {
         padding: 0 1rem;
     }
 }
+/* Navigation styles */
+.nav {
+    height: var(--header-height);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.nav-logo {
+    display: flex;
+    align-items: center;
+}
+
+.nav-toggle {
+    display: none;
+    font-size: 1.5rem;
+    color: var(--light-text);
+    cursor: pointer;
+}
+
+.nav-list {
+    display: flex;
+    gap: 2rem;
+    list-style: none;
+}
+
+.nav-link {
+    color: var(--light-text);
+    text-decoration: none;
+    transition: 0.3s;
+}
+
+/* Mobile menu styles */
+@media screen and (max-width: 768px) {
+    .nav-toggle {
+        display: block;
+    }
+
+    .nav-menu {
+        position: fixed;
+        top: var(--header-height);
+        right: -100%;
+        width: 80%;
+        height: 100vh;
+        background: var(--darker-bg);
+        padding: 2rem;
+        transition: 0.3s;
+        z-index: 100;
+        box-shadow: -5px 0 15px rgba(0, 0, 0, 0.3);
+    }
+
+    .nav-menu.active {
+        right: 0;
+    }
+
+    .nav-list {
+        flex-direction: column;
+        align-items: center;
+        gap: 2rem;
+        padding: 0;
+    }
+
+    .nav-link {
+        display: block;
+        padding: 0.5rem 0;
+        font-size: 1.1rem;
+        width: 100%;
+        text-align: center;
+    }
+}
 </style>
     </head>
     <body>
         <header class="header">
-           <nav class="nav container">
-    <a href="https://imgbb.com/">
-        <img src="https://i.ibb.co/wFLr7FgV/Black-Coconut-Tree-Logo.png" alt="Logo" style="width: 150px" border="0" />
-        <span>TRÁI CÂY ĐẶC SẢN BẾN TRE</span>
+            <nav class="nav container">
+    <!-- Logo -->
+    <a href="#" class="nav-logo">
+        <img src="https://i.ibb.co/wFLr7FgV/Black-Coconut-Tree-Logo.png" alt="Logo" style="width: 150px" />
     </a>
 
-    <!-- Thêm nút toggle menu -->
+    <!-- Menu toggle button -->
     <div class="nav-toggle" id="nav-toggle">
         <i class="fas fa-bars"></i>
     </div>
 
+    <!-- Navigation menu -->
     <div class="nav-menu" id="nav-menu">
         <ul class="nav-list">
-            <li><a href="#home" class="nav-link active">Trang Chủ</a></li>
+            <li><a href="#home" class="nav-link">Trang Chủ</a></li>
             <li><a href="#about" class="nav-link">Giới Thiệu</a></li>
             <li><a href="#specialties" class="nav-link">Đặc Sản</a></li>
             <li><a href="#products" class="nav-link">Sản Phẩm</a></li>
@@ -1301,7 +1372,7 @@ img {
         </ul>
     </div>
 </nav>
-        </header>
+           </header>
 
         <section class="hero" id="home">
             <div class="hero-container container">
@@ -1710,5 +1781,31 @@ document.querySelectorAll('.nav-link').forEach(link => {
         navMenu.classList.remove('active')
     })
 })
+// Mobile menu functionality
+document.addEventListener('DOMContentLoaded', function() {
+    const navMenu = document.getElementById('nav-menu');
+    const navToggle = document.getElementById('nav-toggle');
+    const navLinks = document.querySelectorAll('.nav-link');
+
+    // Toggle menu
+    navToggle.addEventListener('click', (e) => {
+        e.stopPropagation();
+        navMenu.classList.toggle('active');
+    });
+
+    // Close menu when clicking links
+    navLinks.forEach(link => {
+        link.addEventListener('click', () => {
+            navMenu.classList.remove('active');
+        });
+    });
+
+    // Close menu when clicking outside
+    document.addEventListener('click', (e) => {
+        if (!navMenu.contains(e.target) && !navToggle.contains(e.target)) {
+            navMenu.classList.remove('active');
+        }
+    });
+});
 </script>
 </html> 
